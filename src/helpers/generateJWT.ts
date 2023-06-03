@@ -1,6 +1,4 @@
 import jwt, {Secret} from "jsonwebtoken";
-/* import dotenv from 'dotenv' */
-/* require("dotenv").config(); */
 
 const generateJWT = (id = "") => {
   return new Promise((resolve, reject) => {
