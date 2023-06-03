@@ -43,6 +43,13 @@ const getUserData = async (req: Request, res: Response) => {
         }
       })
       if (response) {
+        /**If an user exits, then delete it. Only one user at a time will be storage */
+        const existingUser = await User.findOne({});
+
+        if (existingUser) {
+          await User.deleteMany({});
+        }
+
         const newUser = new User({
           userData: response.data
         });
