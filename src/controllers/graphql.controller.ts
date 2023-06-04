@@ -1,106 +1,97 @@
-const express = require('express');
-const app = express();
-const { ApolloClient, InMemoryCache, HttpLink, gql } = require('@apollo/client');
-/* const fetch = require('node-fetch'); */
+import axios from "axios";
+import { Request, Response } from 'express';
+import User from "../models/User";
+import { extractToken } from "../utils/checkEmptyHeader";
 
-// Fill in the GraphQL endpoint and your GitHub Personal Access Token inside secrets.
-const cache = new InMemoryCache();
-const client = new ApolloClient({
-  link: new HttpLink({
-    uri: "https://api.github.com/graphql",
-    fetch,
-    headers: {
-      Authorization: `Bearer ${process.env.GITHUB_API_TOKEN}`,
-    },
-  }),
-  cache,
-});
-
-app.get('/', function (req, res) {
-  let repositories = [];
-  let endCursor = null;
-
-  function fetchRepositories() {
-    client
-      .query({
-        query: gql`
-          query FetchData($after: String) {
-            viewer {
-              avatarUrl
-              bio
-              blog
-              company
-              createdAt
-              email
-              eventsUrl
-              followers
-              followersUrl
-              following
-              followingUrl
-              gistsUrl
-              gravatarId
-              hireable
-              htmlUrl
-              id
-              location
-              login
+const getUserData = async (req: Request, res: Response) => {
+  const authorization = req.get("Authorization")
+  const hasAuthHeader = extractToken(authorization)
+  try {
+    if (hasAuthHeader) {
+      const query = `query {
+        viewer {
+          login
+          avatarUrl
+          bio
+          company
+          location
+          name
+          updatedAt
+          url
+          websiteUrl
+          followers {
+            totalCount
+          }
+          following {
+            totalCount
+          }
+          repositories(first: 100) {
+            totalCount
+            nodes {
               name
-              nodeId
-              organizationsUrl
-              publicGists
-              publicRepos
-              receivedEventsUrl
-              repos: repositories(first: 100, after: $after) {
-                nodes {
-                  nameWithOwner
-                  description
-                  updatedAt
-                  createdAt
-                  diskUsage
-                }
-                pageInfo {
-                  endCursor
-                  hasNextPage
-                }
-              }
-              siteAdmin
-              starredUrl
-              subscriptionsUrl
-              twitterUsername
-              type
-              updatedAt
+              description
+              isPrivate
               url
+              createdAt
+              updatedAt
+              diskUsage
+              primaryLanguage {
+                name
+              }
+              stargazerCount
+              forkCount
             }
           }
-        `,
-        variables: {
-          after: endCursor,
+        }
+      }
+      `
+      
+      const response = await axios.post("https://api.github.com/graphql",
+        {query: query},
+        {headers: {
+          "Authorization": authorization
         },
       })
-      .then((result) => {
-        const { repos, ...userData } = result.data.viewer;
-        const { nodes, pageInfo } = repos;
-        repositories = repositories.concat(nodes);
-        if (pageInfo.hasNextPage) {
-          endCursor = pageInfo.endCursor;
-          fetchRepositories();
-        } else {
-          const data = {
-            userData,
-            repositories,
-          };
-          console.log(JSON.stringify(data, null, 2));
-          res.send('Check your Console for the JSON you requested!');
+      if (response) {
+        /**If an user exits, then delete it. Only one user at a time will be storage */
+        const existingUser = await User.findOne({});
+
+        if (existingUser) {
+          await User.deleteMany({});
         }
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).send('An error occurred while fetching the data.');
-      });
+
+        const newUser = new User({
+          userData: response.data.data.viewer
+        });
+
+        await newUser.save();
+
+        return res.status(200).json({
+          ok: true,
+          data: newUser.userData,
+        });
+      } else {
+        return res.status(503).json({
+          ok: false,
+          data: response,
+        });
+      }
+    } else {
+      const users = await User.find({});
+      if (users.length > 0) {
+        return res.status(200).json({
+          ok: true,
+          data: users[0].userData,
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error)
+    return error
   }
 
-  fetchRepositories();
-});
+}
 
-
-app.listen(8000, () => console.log('Example app listening on port 8000!'));
+export {
+  getUserData
+}

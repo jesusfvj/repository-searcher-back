@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getUserData } from '../controllers/user.controller';
+import { getUserData } from '../controllers/graphql.controller';
 import checkJWT from "../middlewares/checkJWT";
 
 const graphQLrouter = Router();
