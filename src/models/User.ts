@@ -3,6 +3,7 @@ import { UserData } from '../interfaces/userModel';
 
 interface UserDocument extends Document {
   userData: UserData;
+  token: string;
 }
 
 const UserSchema = new Schema<UserDocument>({
@@ -11,6 +12,9 @@ const UserSchema = new Schema<UserDocument>({
     required: true,
     unique: true,
   },
+  token: {
+    type: String,
+  }
 });
 
 const User = mongoose.model<UserDocument>('User', UserSchema);
