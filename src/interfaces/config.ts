@@ -1,11 +1,3 @@
-/* export interface ConfigOptions {
-    app: {
-        PORT: string | number;
-    };
-    db: {mongoUri: string}
-}
- */
-
 export interface AppConfig {
     PORT: string | number;
   }
