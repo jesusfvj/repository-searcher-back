@@ -18,7 +18,7 @@ This is a backend application built with Node.js and Express, serving as the ser
 
 Follow the steps below to run the backend application:
 
-1. Clone the repository: `git clone <repository-url>`
+1. Copy the link of the repository in your code visualization software: `https://github.com/jesusfvj/repository-searcher-back.git`
 2. Install the dependencies: `npm install`
 3. Create an OAuth app in your GitHub account if you haven't done so before:
    - Go to your GitHub account settings.
