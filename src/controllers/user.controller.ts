@@ -79,7 +79,6 @@ const getUserData = async (req: Request, res: Response) => {
     console.log(error)
     return error
   }
-
 }
 
 export {

@@ -32,62 +32,10 @@ const getUserData = async (req: Request, res: Response) => {
           updatedAt
           url
           following{
-            totalCount}
-          followers{
-            totalCount}
-              repositories(first: 100) {
-                totalCount
-            nodes {
-              name
-              description
-              isPrivate
-              url
-              createdAt
-              updatedAt
-              diskUsage
-              primaryLanguage {
-                name
-              }
-              stargazerCount
-              forkCount
-            }
-              }
-            }
-          }
-          following(first: 100){
             totalCount
-            nodes{
-              id
-              login
-              avatarUrl
-              bio
-              company
-              location
-              name
-              updatedAt
-              url
-              following{
-                totalCount}
-              followers{
-                totalCount}
-              repositories(first: 100) {
-                totalCount
-            nodes {
-              name
-              description
-              isPrivate
-              url
-              createdAt
-              updatedAt
-              diskUsage
-              primaryLanguage {
-                name
-              }
-              stargazerCount
-              forkCount
-            }
-              }
-            }
+          }
+          followers{
+            totalCount
           }
           repositories(first: 100) {
             totalCount
@@ -104,6 +52,62 @@ const getUserData = async (req: Request, res: Response) => {
               }
               stargazerCount
               forkCount
+              }
+              }
+            }
+          }
+          following(first: 100){
+            totalCount
+            nodes{
+              id
+              login
+              avatarUrl
+              bio
+              company
+              location
+              name
+              updatedAt
+              url
+              following{
+                totalCount
+              }
+              followers{
+                totalCount
+              }
+              repositories(first: 100) {
+                totalCount
+                nodes {
+                name
+                description
+                isPrivate
+                url
+                createdAt
+                updatedAt
+                diskUsage
+                primaryLanguage {
+                  name
+                }
+                stargazerCount
+                forkCount
+                }
+                }
+              }
+            }
+            repositories(first: 100) {
+              totalCount
+              nodes {
+                name
+                description
+                isPrivate
+                url
+                createdAt
+                updatedAt
+                diskUsage
+                primaryLanguage {
+                  name
+                }
+                stargazerCount
+                forkCount
             }
           }
         }
