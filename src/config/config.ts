@@ -12,13 +12,15 @@ if (ENV === 'production') {
 const CONFIG: Config = {
   development: {
     app: {
-      PORT: process.env.PORT || 4000
-    }
+      PORT: process.env.PORT || 4000,
+    },
+    db: { URI: process.env.MONGODB_URL }
   },
   production: {
     app: {
-      PORT: process.env.PORT || 4001
-    }
+      PORT: process.env.PORT || 4001,
+    },
+    db: { URI: process.env.MONGODB_URL }
   }
 };
 
