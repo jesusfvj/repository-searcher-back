@@ -10,6 +10,7 @@ const getUserData = async (req: Request, res: Response) => {
     if (hasAuthHeader) {
       const query = `query {
         viewer {
+          id
           login
           avatarUrl
           bio
@@ -18,12 +19,75 @@ const getUserData = async (req: Request, res: Response) => {
           name
           updatedAt
           url
-          websiteUrl
-          followers {
+          followers(first: 100){
             totalCount
+            nodes{
+              id
+          login
+          avatarUrl
+          bio
+          company
+          location
+          name
+          updatedAt
+          url
+          following{
+            totalCount}
+          followers{
+            totalCount}
+              repositories(first: 100) {
+                totalCount
+            nodes {
+              name
+              description
+              isPrivate
+              url
+              createdAt
+              updatedAt
+              diskUsage
+              primaryLanguage {
+                name
+              }
+              stargazerCount
+              forkCount
+            }
+              }
+            }
           }
-          following {
+          following(first: 100){
             totalCount
+            nodes{
+              id
+              login
+              avatarUrl
+              bio
+              company
+              location
+              name
+              updatedAt
+              url
+              following{
+                totalCount}
+              followers{
+                totalCount}
+              repositories(first: 100) {
+                totalCount
+            nodes {
+              name
+              description
+              isPrivate
+              url
+              createdAt
+              updatedAt
+              diskUsage
+              primaryLanguage {
+                name
+              }
+              stargazerCount
+              forkCount
+            }
+              }
+            }
           }
           repositories(first: 100) {
             totalCount
@@ -45,13 +109,14 @@ const getUserData = async (req: Request, res: Response) => {
         }
       }
       `
-      
+
       const response = await axios.post("https://api.github.com/graphql",
-        {query: query},
-        {headers: {
-          "Authorization": authorization
-        },
-      })
+        { query: query },
+        {
+          headers: {
+            "Authorization": authorization
+          },
+        })
       if (response) {
         /**If an user exits, then delete it. Only one user at a time will be storage */
         const existingUser = await User.findOne({});
