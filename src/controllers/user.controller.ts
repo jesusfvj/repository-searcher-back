@@ -32,7 +32,7 @@ const getAccesToken = async (req: Request, res: Response) => {
 }
 
 /**Function to get the GitHub data fromm the logged user */
-const getUserData = async (req: Request, res: Response) => {
+const getUserData = async (req: Request, res: Response): Promise<any> => {
   const authorization = req.get("Authorization")
   const hasAuthHeader = extractToken(authorization)
   try {

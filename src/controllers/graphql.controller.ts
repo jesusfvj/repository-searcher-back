@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import User from "../models/User";
 import { extractToken } from "../utils/checkEmptyHeader";
 
-const getUserData = async (req: Request, res: Response) => {
+const getUserData = async (req: Request, res: Response): Promise<any> => {
   const authorization = req.get("Authorization")
   const hasAuthHeader = extractToken(authorization)
   try {

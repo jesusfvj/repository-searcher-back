@@ -5,15 +5,14 @@ interface TokenPayload extends JwtPayload {
   id: string;
 }
 
-const checkJWT = async (req: Request, res: Response, next: NextFunction) => {
+const checkJWT = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
 
   const token = req.headers["x-token"] as string;
   const secret = process.env.TOKEN_SECRET as Secret;
 
   try {
-    const {
-      id
-    } = jwt.verify(token, secret) as TokenPayload
+    
+    jwt.verify(token, secret) as TokenPayload
 
     next();
 
