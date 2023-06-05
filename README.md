@@ -2,6 +2,8 @@
 
 This is a backend application built with Node.js and Express, serving as the server for the [repository-searcher-front](https://github.com/jesusfvj/repository-searcher-front.git). The backend handles user authentication, retrieves data from the GitHub GraphQL API, and interacts with a MongoDB database for data persistence.
 
+![Captura de pantalla 2023-06-05 a las 11 53 54](https://github.com/jesusfvj/repository-searcher-back/assets/119491399/33572be7-5dee-4dcb-92d2-7922e9b43d00)
+
 ## Technologies Used
 
 - Node.js: A JavaScript runtime built on Chrome's V8 JavaScript engine.
