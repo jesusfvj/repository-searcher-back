@@ -61,6 +61,7 @@ The endpoint used for this proccess is the following:
 
 GraphQL is used in this backend application to efficiently fetch all the required information from the GitHub API in a single request. To construct the GraphQL query, the [GitHub GraphQL Explorer](https://docs.github.com/graphql/overview/explorer) page was utilized. This allowed for testing and building the query, ensuring that the correct information is retrieved and returning an error if any issues arise.
 The request is sent to the GitHub GraphQL API endpoint: ```https://api.github.com/graphql```
+![Captura de pantalla 2023-06-05 a las 12 29 09](https://github.com/jesusfvj/repository-searcher-back/assets/119491399/99805201-2e92-42ae-b7cf-8c49e50dd646)
 
 -The logging user's personal token from GitHub will be needed in the geaders of the request to retrieve the user's data.
 
