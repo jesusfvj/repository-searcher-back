@@ -1,4 +1,4 @@
-import app from "./server";
+const app = require("./server")
 import Config from "./config/config";
 import { dbConnection } from "./database/config";
 
