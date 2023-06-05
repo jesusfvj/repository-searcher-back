@@ -20,8 +20,15 @@ Follow the steps below to run the backend application:
 
 1. Clone the repository: `git clone <repository-url>`
 2. Install the dependencies: `npm install`
-3. Create a `.env.development` file in the root directory of the project.
-4. Add the following information to the `.env.development` file:
+3. 3. Create an OAuth app in your GitHub account if you haven't done so before:
+   - Go to your GitHub account settings.
+   - Navigate to "Developer settings" > "OAuth Apps."
+   - Click on "New OAuth App" to create a new OAuth application.
+   - Provide the necessary details for your application.
+   - Set the authorization callback URL to the URL where your application will be running.
+   - Once the OAuth app is created, you will receive a client ID and a secret ID. Make a note of it.
+4. Create a `.env.development` and a `.env.production` file in the root directory of the project.
+5. Add the following information to the both files and complete according to the stage of the proccess:
    ```
    # SERVER
    PORT=<your-port-number>
@@ -39,10 +46,22 @@ Follow the steps below to run the backend application:
 5. Start the server: `npm start`
 6. The backend application will be running at the specified port.
 
-## GraphQL
+## API endpoints
+
+### - Get the logging user's personal token from GitHub
+
+The endpoint used for this proccess is the following:
+```https://github.com/login/oauth/access_token?client_id=CLIENT_ID&client_secret=CLIENT_SECRET&code=CODE```
+
+-Once the OAuth app is created, you will receive the client ID and the secret ID.
+-The CODE is given to the user once they have granted permission to GitHub to login to this app with their GitHub account.
+
+### - Get the GitHub data from GitHub using GraphQL
 
 GraphQL is used in this backend application to efficiently fetch all the required information from the GitHub API in a single request. To construct the GraphQL query, the [GitHub GraphQL Explorer](https://docs.github.com/graphql/overview/explorer) page was utilized. This allowed for testing and building the query, ensuring that the correct information is retrieved and returning an error if any issues arise.
 The request is sent to the GitHub GraphQL API endpoint: ```https://api.github.com/graphql```
+
+-The logging user's personal token from GitHub will be needed in the geaders of the request to retrieve the user's data.
 
 ## Contributing
 
