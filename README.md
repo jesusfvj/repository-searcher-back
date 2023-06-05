@@ -20,7 +20,7 @@ Follow the steps below to run the backend application:
 
 1. Clone the repository: `git clone <repository-url>`
 2. Install the dependencies: `npm install`
-3. 3. Create an OAuth app in your GitHub account if you haven't done so before:
+3. Create an OAuth app in your GitHub account if you haven't done so before:
    - Go to your GitHub account settings.
    - Navigate to "Developer settings" > "OAuth Apps."
    - Click on "New OAuth App" to create a new OAuth application.
@@ -28,7 +28,8 @@ Follow the steps below to run the backend application:
    - Set the authorization callback URL to the URL where your application will be running.
    - Once the OAuth app is created, you will receive a client ID and a secret ID. Make a note of it.
 4. Create a `.env.development` and a `.env.production` file in the root directory of the project.
-5. Add the following information to the both files and complete according to the stage of the proccess:
+5. Connect to your mongoDB database.
+6. Add the following information to the both files and complete according to the stage of the proccess:
    ```
    # SERVER
    PORT=<your-port-number>
@@ -43,8 +44,8 @@ Follow the steps below to run the backend application:
    # JSONWEBTOKEN
    TOKEN_SECRET=<a-string-of-your-choice>
    ```
-5. Start the server: `npm start`
-6. The backend application will be running at the specified port.
+6. Start the server: `npm start`
+7. The backend application will be running at the specified port.
 
 ## API endpoints
 
