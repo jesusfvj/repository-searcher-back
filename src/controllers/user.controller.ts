@@ -145,12 +145,15 @@ const getAccesToken = async (req: Request, res: Response): Promise<any> => {
             token: token,
           });
           await newUser.save();
-        }
 
-        return res.status(200).json({
-          ok: true,
-          userData: graphQLresponse.data.data.viewer,
-        });
+          return res.status(200).json({
+            ok: true,
+            data: {
+              userData: graphQLresponse.data.data.viewer,
+              token: token,
+            }
+          });
+        }
       }
     } else {
       return res.status(503).json({
