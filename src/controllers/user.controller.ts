@@ -170,7 +170,6 @@ const getUserData = async (req: Request, res: Response): Promise<any> => {
   const token = req.get("x-token")
   try {
     const foundUser = await User.findOne({ 'token': token });
-    console.log(foundUser)
     if (foundUser) {
       return res.status(200).json({
         ok: true,
