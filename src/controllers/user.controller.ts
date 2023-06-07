@@ -132,17 +132,16 @@ const getAccesToken = async (req: Request, res: Response): Promise<any> => {
       if (graphQLresponse) {
 
         const filter = { 'userData.id': graphQLresponse.data.data.viewer.id };
-        const update = { $set: { token: token } };
-        const foundUser = await User.findOneAndUpdate(filter, update, { new: true })
+        const foundUser = await User.findOne(filter)
         if (foundUser) {
           return res.status(200).json({
             ok: true,
             data: foundUser,
+            token: token,
           });
         } else {
           const newUser = new User({
             userData: graphQLresponse.data.data.viewer,
-            token: token,
           });
           await newUser.save();
 
@@ -167,13 +166,13 @@ const getAccesToken = async (req: Request, res: Response): Promise<any> => {
 }
 
 const getUserData = async (req: Request, res: Response): Promise<any> => {
-  const token = req.get("x-token")
+  const login = req.get("login")
   try {
-    const foundUser = await User.findOne({ 'token': token });
+    const foundUser = await User.findOne({ 'userData.login': login });
     if (foundUser) {
       return res.status(200).json({
         ok: true,
-        userData: foundUser
+        data: foundUser
       });
     }
   } catch (error) {
