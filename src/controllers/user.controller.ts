@@ -183,11 +183,17 @@ const getAccesToken = async (req: Request, res: Response): Promise<any> => {
 const getUserData = async (req: Request, res: Response): Promise<any> => {
   const login = req.get("login")
   try {
+    if(login){
     const foundUser = await User.findOne({ 'userData.login': login });
     if (foundUser) {
       return res.status(200).json({
         ok: true,
         data: foundUser
+      });
+    }} else {
+      return res.status(503).json({
+        ok: false,
+        data: "no user",
       });
     }
   } catch (error) {
