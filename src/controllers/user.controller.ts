@@ -6,9 +6,24 @@ import { retrieveAccessToken } from "../utils/stringManipulation";
 
 /** Function to get the logging user's personal access token from git hub to be able to show their information*/
 const getAccesToken = async (req: Request, res: Response): Promise<any> => {
+  const login = req.get("login")
   const code = req.query.code;
   const params = `?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&code=${code}`
   try {
+
+    if (login) {
+      const filter = { 'userData.login': login };
+      const foundUser = await User.findOne(filter)
+      if (foundUser) {
+        const token = await generateJWT(foundUser.id);
+        return res.status(200).json({
+          ok: true,
+          data: foundUser,
+          token: token,
+        });
+      }
+    }
+
     const response = await axios.post(`https://github.com/login/oauth/access_token${params}`)
 
     if (!response.data.includes("error")) {
